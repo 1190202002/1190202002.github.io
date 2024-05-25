@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="静态数组定义数组时必须显式指定数组的类型和大小。 1234int N&#x3D;10;float A[N][N];&#x2F;&#x2F;或float A[][N]&#x3D;&#123;1,2,3,4,5,6,7,8,9,10&#125;;  &#x2F;&#x2F;1*N 所分配内存在栈中,N过大栈空间不足发生段错误。解决方法,定义为静态变量，数据存在数据段 12345678910#define Nx 1024#define Ny 2048static">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C\C++中多维数组">
-<meta property="og:url" content="http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:title" content="c&#x2F;cpp二维数组">
+<meta property="og:url" content="http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/index.html">
 <meta property="og:site_name" content="Yif Blog">
 <meta property="og:description" content="静态数组定义数组时必须显式指定数组的类型和大小。 1234int N&#x3D;10;float A[N][N];&#x2F;&#x2F;或float A[][N]&#x3D;&#123;1,2,3,4,5,6,7,8,9,10&#125;;  &#x2F;&#x2F;1*N 所分配内存在栈中,N过大栈空间不足发生段错误。解决方法,定义为静态变量，数据存在数据段 12345678910#define Nx 1024#define Ny 2048static">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-25T06:25:27.000Z">
-<meta property="article:modified_time" content="2024-05-25T09:54:58.865Z">
+<meta property="article:published_time" content="2024-05-25T12:19:49.000Z">
+<meta property="article:modified_time" content="2024-05-25T12:20:10.549Z">
 <meta property="article:author" content="yif">
 <meta name="twitter:card" content="summary">
     
@@ -36,7 +36,7 @@
       
     
     <!-- title -->
-    <title>C\C++中多维数组</title>
+    <title>c/cpp二维数组</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -82,6 +82,8 @@
       <ul>
         
         
+        <li><a class="icon" aria-label="下一篇" href="/2024/05/23/cuda-1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
@@ -93,24 +95,24 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&text=C\C++中多维数组"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&is_video=false&description=C\C++中多维数组"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=C\C++中多维数组&body=Check out this article: http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&name=C\C++中多维数组&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&t=C\C++中多维数组"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&text=c/cpp二维数组"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&is_video=false&description=c/cpp二维数组"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=c/cpp二维数组&body=Check out this article: http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&name=c/cpp二维数组&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&t=c/cpp二维数组"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">1.</span> <span class="toc-text">静态数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">2.</span> <span class="toc-text">动态数组</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">1.</span> <span class="toc-text">静态数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">2.</span> <span class="toc-text">动态数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">解决方法</span></a></li></ol>
       </div>
     
   </span>
@@ -123,7 +125,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        C\C++中多维数组
+        c/cpp二维数组
     </h1>
 
 
@@ -135,7 +137,7 @@
       
     <div class="postdate">
       
-        <time datetime="2024-05-25T06:25:27.000Z" class="dt-published" itemprop="datePublished">2024-05-25</time>
+        <time datetime="2024-05-25T12:19:49.000Z" class="dt-published" itemprop="datePublished">2024-05-25</time>
         
       
     </div>
@@ -170,6 +172,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#define Nx 1024</span><br><span class="line">#define Ny 2048</span><br><span class="line">int main() &#123;</span><br><span class="line">int **B=(int **)malloc(Ny*sizeof(int*));</span><br><span class="line">for(int i=0;i&lt;Ny;i++)</span><br><span class="line">    B[i] = (int *)malloc(Nx*sizeof(int));</span><br><span class="line">for(int y=0; y&lt;Ny; y++) &#123;</span><br><span class="line">    for(int x=0; x&lt;Nx; x++)&#123;</span><br><span class="line">        B[y][x]=x+y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">std::cout&lt;&lt;(B[0]+1024)&lt;&lt;std::endl;</span><br><span class="line">std::cout&lt;&lt;&amp;B[0][1024]&lt;&lt;std::endl;</span><br><span class="line">std::cout&lt;&lt;&amp;B[1][0]&lt;&lt;std::endl;</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>测试结果</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0x55555556fec0</span><br><span class="line">0x55555556fec0</span><br><span class="line">0x55555556fed0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>一种方法是一次分配所有所需空间，再设置指针。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">int **B=(int **)malloc(Ny*sizeof(int*));</span><br><span class="line">B[0]=(int *)malloc(Ny*Nx*sizeof(int));</span><br><span class="line">for(int i=0;i&lt;Ny;i++)</span><br><span class="line">    B[i] = B[0]+Nx*i;</span><br><span class="line">for(int y=0; y&lt;Ny; y++) &#123;</span><br><span class="line">    for(int x=0; x&lt;Nx; x++)&#123;</span><br><span class="line">        B[y][x]=x+y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//或</span><br><span class="line">int **B=new int*[Ny];</span><br><span class="line">B[0]=new int[Nx*Ny];</span><br><span class="line">for(int i=0;i&lt;Ny;i++)</span><br><span class="line">    B[i] = B[0]+Nx*i;</span><br><span class="line">for(int y=0; y&lt;Ny; y++) &#123;</span><br><span class="line">    for(int x=0; x&lt;Nx; x++)&#123;</span><br><span class="line">        B[y][x]=x+y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
 
 
 
@@ -199,23 +205,23 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">1.</span> <span class="toc-text">静态数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">2.</span> <span class="toc-text">动态数组</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">1.</span> <span class="toc-text">静态数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84"><span class="toc-number">2.</span> <span class="toc-text">动态数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">解决方法</span></a></li></ol>
       </div>
     
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&text=C\C++中多维数组"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&is_video=false&description=C\C++中多维数组"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=C\C++中多维数组&body=Check out this article: http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&title=C\C++中多维数组"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&name=C\C++中多维数组&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/25/C-C-%E4%B8%AD%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/&t=C\C++中多维数组"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&text=c/cpp二维数组"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&is_video=false&description=c/cpp二维数组"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=c/cpp二维数组&body=Check out this article: http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&title=c/cpp二维数组"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&name=c/cpp二维数组&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/&t=c/cpp二维数组"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

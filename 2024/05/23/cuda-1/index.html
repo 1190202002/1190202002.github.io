@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Programming Model一个简单的cuda add只需要将add函数转换成 GPU 可以运行的函数，在 CUDA 中称为内核 。只需__global__ 添加到函数中，告诉 CUDA C ++编译器，这是一个在 GPU 上运行的函数，可以从 CPU 代码调用。 1234567&#x2F;&#x2F; CUDA Kernel function to add the elements of two arrays">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cuda-1">
+<meta property="og:url" content="http://example.com/2024/05/23/cuda-1/index.html">
+<meta property="og:site_name" content="Yif Blog">
+<meta property="og:description" content="Programming Model一个简单的cuda add只需要将add函数转换成 GPU 可以运行的函数，在 CUDA 中称为内核 。只需__global__ 添加到函数中，告诉 CUDA C ++编译器，这是一个在 GPU 上运行的函数，可以从 CPU 代码调用。 1234567&#x2F;&#x2F; CUDA Kernel function to add the elements of two arrays">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-23T13:26:37.000Z">
+<meta property="article:modified_time" content="2024-05-25T12:24:27.440Z">
+<meta property="article:author" content="yif">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>cuda-1</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/1190202002">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/05/25/c-cpp%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/23/cuda-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/23/cuda-1/&text=cuda-1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/23/cuda-1/&is_video=false&description=cuda-1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cuda-1&body=Check out this article: http://example.com/2024/05/23/cuda-1/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/23/cuda-1/&name=cuda-1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/23/cuda-1/&t=cuda-1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Programming-Model"><span class="toc-number">1.</span> <span class="toc-text">Programming Model</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84cuda-add"><span class="toc-number">1.1.</span> <span class="toc-text">一个简单的cuda add</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9D%97%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">线程块中的线程数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9D%97"><span class="toc-number">1.3.</span> <span class="toc-text">线程块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%B1%82%E6%AC%A1"><span class="toc-number">1.4.</span> <span class="toc-text">线程层次</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9D%97%E7%B0%87"><span class="toc-number">1.4.1.</span> <span class="toc-text">线程块簇</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E5%88%86%E5%9D%97"><span class="toc-number">1.5.</span> <span class="toc-text">例子(二维数组分块)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.5.1.</span> <span class="toc-text">一维数组表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.5.2.</span> <span class="toc-text">二维数组表示</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        cuda-1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">yif</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-05-23T13:26:37.000Z" class="dt-published" itemprop="datePublished">2024-05-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Programming-Model"><a href="#Programming-Model" class="headerlink" title="Programming Model"></a>Programming Model</h1><h2 id="一个简单的cuda-add"><a href="#一个简单的cuda-add" class="headerlink" title="一个简单的cuda add"></a>一个简单的cuda add</h2><p>只需要将add函数转换成 GPU 可以运行的函数，在 CUDA 中称为<strong>内核</strong> 。只需__global__ 添加到函数中，告诉 CUDA C ++编译器，这是一个在 GPU 上运行的函数，可以从 CPU 代码调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// CUDA Kernel function to add the elements of two arrays on the GPU</span><br><span class="line">__global__</span><br><span class="line">void add(int n, float *x, float *y)</span><br><span class="line">&#123; </span><br><span class="line">    for (int i = 0; i &lt; n; i++) </span><br><span class="line">    y[i] = x[i] + y[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 GPU 上运行的代码通常称为 <strong>设备代码</strong> ，而在 CPU 上运行的代码是<strong>主机代码</strong> 。</p>
+<p>为了在 GPU 上计算，我需要分配 GPU 可访问的内存。要在统一内存中分配数据，请调用 cudaMallocManaged() ，它返回一个指针，您可以从主机（ CPU ）代码或设备（ GPU ）代码访问该指针。要释放数据，只需将指针传递到 cudaFree()。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int main(void)</span><br><span class="line">&#123; </span><br><span class="line">    int N = 1&lt;&lt;20; </span><br><span class="line">    float *x, *y; // Allocate Unified Memory – accessible from CPU or GPU </span><br><span class="line">    cudaMallocManaged(&amp;x, N*sizeof(float)); </span><br><span class="line">    cudaMallocManaged(&amp;y, N*sizeof(float)); // initialize x and y arrays on the host </span><br><span class="line">    for (int i = 0; i &lt; N; i++) </span><br><span class="line">    &#123; </span><br><span class="line">        x[i] = 1.0f; </span><br><span class="line">        y[i] = 2.0f; </span><br><span class="line">    &#125; // Run kernel on 1M elements on the GPU </span><br><span class="line">    add&lt;&lt;&lt;1, 1&gt;&gt;&gt;(N, x, y); // Wait for GPU to finish before accessing on host </span><br><span class="line">    cudaDeviceSynchronize(); // Check for errors (all values should be 3.0f) </span><br><span class="line">    float maxError = 0.0f; </span><br><span class="line">    for (int i = 0; i &lt; N; i++) </span><br><span class="line">    maxError = fmax(maxError, fabs(y[i]-3.0f)); </span><br><span class="line">    std::cout &lt;&lt; &quot;Max error: &quot; &lt;&lt; maxError &lt;&lt; std::endl; // Free memory </span><br><span class="line">    cudaFree(x); </span><br><span class="line">    cudaFree(y); </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>使用nvcc编译运行此程序，它将在 GPU 上运行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nvcc add.cu -o add_cuda</span><br><span class="line">nsys nvprof ./add_cuda //分析运行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CUDA API Statistics:</span><br><span class="line"></span><br><span class="line"> Time (%)  Total Time (ns)  Num Calls   Avg (ns)     Med (ns)    Min (ns)   Max (ns)   StdDev (ns)           Name         </span><br><span class="line"> --------  ---------------  ---------  -----------  -----------  ---------  ---------  -----------  ----------------------</span><br><span class="line">     67.6        423022720          1  423022720.0  423022720.0  423022720  423022720          0.0  cudaDeviceSynchronize </span><br><span class="line">     32.2        201378900          2  100689450.0  100689450.0    1476985  199901915  140307613.6  cudaMallocManaged     </span><br><span class="line">      0.2          1172840          2     586420.0     586420.0     455802     717038     184721.7  cudaFree              </span><br><span class="line">      0.0            77056          1      77056.0      77056.0      77056      77056          0.0  cudaLaunchKernel      </span><br><span class="line">      0.0             3085          1       3085.0       3085.0       3085       3085          0.0  cuModuleGetLoadingMode</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="线程块中的线程数"><a href="#线程块中的线程数" class="headerlink" title="线程块中的线程数"></a>线程块中的线程数</h2><p> &lt;&lt;&lt;1, 1&gt;&gt;&gt;告诉 CUDA 运行时要使用多少并行线程来启动 GPU 。第二个参数为：线程块中的线程数。<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add&lt;&lt;&lt;1, 256&gt;&gt;&gt;(N, x, y);</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>它将为每个线程执行一次计算，而不是将计算分散到并行线程上。为了正确地执行它，我需要修改内核。threadIdx.x 包含其块中当前线程的索引， blockDim.x 包含块中的线程数。我只需修改循环以使用并行线程跨过数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__global__</span><br><span class="line">void add(int n, float *x, float *y)</span><br><span class="line">&#123; int index = threadIdx.x; </span><br><span class="line">int stride = blockDim.x; //256</span><br><span class="line">for (int i = index; i &lt; n; i += stride) </span><br><span class="line">y[i] = x[i] + y[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CUDA API Statistics:</span><br><span class="line"></span><br><span class="line"> Time (%)  Total Time (ns)  Num Calls   Avg (ns)     Med (ns)    Min (ns)  Max (ns)   StdDev (ns)           Name         </span><br><span class="line"> --------  ---------------  ---------  -----------  -----------  --------  ---------  -----------  ----------------------</span><br><span class="line">     97.9        200481689          2  100240844.5  100240844.5   1549943  198931746  139570011.4  cudaMallocManaged     </span><br><span class="line">      1.5          3082184          1    3082184.0    3082184.0   3082184    3082184          0.0  cudaDeviceSynchronize </span><br><span class="line">      0.5          1113897          2     556948.5     556948.5    470300     643597     122539.5  cudaFree              </span><br><span class="line">      0.0            81103          1      81103.0      81103.0     81103      81103          0.0  cudaLaunchKernel      </span><br><span class="line">      0.0             3256          1       3256.0       3256.0      3256       3256          0.0  cuModuleGetLoadingMode</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="线程块"><a href="#线程块" class="headerlink" title="线程块"></a>线程块</h2><p>应该用多个线程块启动内核。因为有 N 元素要处理，每个块有 256 个线程，所以只需$$\left\lceil\frac{N}{blockSize}\right\rceil$$。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int blockSize = 256;</span><br><span class="line">int numBlocks = (N + blockSize - 1) / blockSize;</span><br><span class="line">add&lt;&lt;&lt;numBlocks, blockSize&gt;&gt;&gt;(N, x, y);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__global__</span><br><span class="line">void add(int n, float *x, float *y)</span><br><span class="line">&#123; </span><br><span class="line">int index = blockIdx.x * blockDim.x + threadIdx.x; </span><br><span class="line">int stride = blockDim.x * gridDim.x; </span><br><span class="line">for (int i = index; i &lt; n; i += stride) </span><br><span class="line">y[i] = x[i] + y[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CUDA API Statistics:</span><br><span class="line"></span><br><span class="line"> Time (%)  Total Time (ns)  Num Calls   Avg (ns)    Med (ns)   Min (ns)  Max (ns)   StdDev (ns)           Name         </span><br><span class="line"> --------  ---------------  ---------  ----------  ----------  --------  ---------  -----------  ----------------------</span><br><span class="line">     98.9        158761944          2  79380972.0  79380972.0   1058904  157703040  110764130.8  cudaMallocManaged     </span><br><span class="line">      0.6           966138          2    483069.0    483069.0    418141     547997      91822.1  cudaFree              </span><br><span class="line">      0.4           677101          1    677101.0    677101.0    677101     677101          0.0  cudaDeviceSynchronize </span><br><span class="line">      0.0            65614          1     65614.0     65614.0     65614      65614          0.0  cudaLaunchKernel      </span><br><span class="line">      0.0             3196          1      3196.0      3196.0      3196       3196          0.0  cuModuleGetLoadingMode</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="线程层次"><a href="#线程层次" class="headerlink" title="线程层次"></a>线程层次</h2><p>threadIdx是一个3维向量，对于大小为(Dx, Dy)的二维块，索引为(x, y)的线程的线程ID为(x + y Dx)；对于大小为 (Dx, Dy, Dz) 的三维块，索引为 (x, y, z) 的线程的线程 ID 为 (x + y Dx + z Dx Dy)。<br>每个块的线程数量是有限的，因为块中的所有线程都应驻留在同一个流式多处理器核心上，并且必须共享该核心的有限内存资源。然而，一个内核可以由多个形状相同的线程块来执行，因此<strong>线程总数等于每个块的线程数乘以块数</strong>。块被组织成一维、二维或三维线程块网格，网格中线程块的数量通常由正在处理的数据大小决定，该大小通常超过系统中处理器的数量。<br>&lt;&lt;&lt;…&gt;&gt;&gt; 语法中指定的每个块的线程数和每个网格的块数可以是** int 或 dim3 **类型。该索引可通过内置的 blockIdx 变量在内核中访问。线程块的尺寸可以通过内置的 blockDim 变量在内核中访问。<br><strong>线程块需要独立执行</strong>：必须能够以任何顺序、并行或串行执行它们。这种独立性要求允许在任何数量的内核上以任何顺序调度线程块，使程序员能够编写随内核数量而扩展的代码。<br>块内的线程可以通过某些共享内存共享数据并同步其执行来协调内存访问来进行协作。更准确地说，可以通过调用 __syncthreads() 内部函数来指定内核中的同步点； __syncthreads() 充当屏障，块中的所有线程都必须等待，然后才允许任何线程继续进行。</p>
+<h3 id="线程块簇"><a href="#线程块簇" class="headerlink" title="线程块簇"></a>线程块簇</h3><p>CUDA 编程模型引入了一个可选的层次结构级别，称为由线程块组成的线程块簇。与如何保证线程块中的线程在流式多处理器上共同调度类似，集群中的线程块也保证在 GPU 中的 GPU 处理集群 (GPC) 上共同调度。与线程块类似，簇也被组织成一维、二维或三维。簇中线程块的数量可以由用户定义，最多8个线程块在 CUDA 中支持作为可移植簇大小。请注意，在 GPU 硬件或 MIG 配置上太小而无法支持 8 个多处理器时，最大集群大小将相应减小。这些较小配置以及支持超过 8 的线程块簇大小的较大配置的标识是特定于体系结构的，并且可以使用 cudaOccupancyMaxPotentialClusterSize API 进行查询。<br>可以使用 <strong>cluster_dims</strong>(X,Y,Z) 的编译器时内核属性或使用 CUDA 内核启动 API cudaLaunchKernelEx 在内核中启用线程块集群。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// Kernel definition</span><br><span class="line">// Compile time cluster size 2 in X-dimension and 1 in Y and Z dimension</span><br><span class="line">__global__ void __cluster_dims__(2, 1, 1) cluster_kernel(float *input, float* output)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    float *input, *output;</span><br><span class="line">    // Kernel invocation with compile time cluster size</span><br><span class="line">    dim3 threadsPerBlock(16, 16);</span><br><span class="line">    dim3 numBlocks(N / threadsPerBlock.x, N / threadsPerBlock.y);</span><br><span class="line"></span><br><span class="line">    // The grid dimension is not affected by cluster launch, and is still enumerated</span><br><span class="line">    // using number of blocks.</span><br><span class="line">    // The grid dimension must be a multiple of cluster size.</span><br><span class="line">    cluster_kernel&lt;&lt;&lt;numBlocks, threadsPerBlock&gt;&gt;&gt;(input, output);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// Kernel definition</span><br><span class="line">// No compile time attribute attached to the kernel</span><br><span class="line">__global__ void cluster_kernel(float *input, float* output)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    float *input, *output;</span><br><span class="line">    dim3 threadsPerBlock(16, 16);</span><br><span class="line">    dim3 numBlocks(N / threadsPerBlock.x, N / threadsPerBlock.y);</span><br><span class="line"></span><br><span class="line">    // Kernel invocation with runtime cluster size</span><br><span class="line">    &#123;</span><br><span class="line">        cudaLaunchConfig_t config = &#123;0&#125;;</span><br><span class="line">        // The grid dimension is not affected by cluster launch, and is still enumerated</span><br><span class="line">        // using number of blocks.</span><br><span class="line">        // The grid dimension should be a multiple of cluster size.</span><br><span class="line">        config.gridDim = numBlocks;</span><br><span class="line">        config.blockDim = threadsPerBlock;</span><br><span class="line"></span><br><span class="line">        cudaLaunchAttribute attribute[1];</span><br><span class="line">        attribute[0].id = cudaLaunchAttributeClusterDimension;</span><br><span class="line">        attribute[0].val.clusterDim.x = 2; // Cluster size in X-dimension</span><br><span class="line">        attribute[0].val.clusterDim.y = 1;</span><br><span class="line">        attribute[0].val.clusterDim.z = 1;</span><br><span class="line">        config.attrs = attribute;</span><br><span class="line">        config.numAttrs = 1;</span><br><span class="line"></span><br><span class="line">        cudaLaunchKernelEx(&amp;config, cluster_kernel, input, output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="例子-二维数组分块"><a href="#例子-二维数组分块" class="headerlink" title="例子(二维数组分块)"></a>例子(二维数组分块)</h2><h3 id="一维数组表示"><a href="#一维数组表示" class="headerlink" title="一维数组表示"></a>一维数组表示</h3><p>无论多少维数组，都可以用一维数组表示，下标(x,y,z)&#x3D;(x+y<em>nx+z</em>nx*ny)<br>cudatool.h</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#pragma once</span><br><span class="line">#include &lt;ctime&gt;</span><br><span class="line">#include &lt;random&gt;</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">void checkResult(T hostRef,T gpuRef,const int N)</span><br><span class="line">&#123;</span><br><span class="line">  double epsilon=1.0E-8;</span><br><span class="line">  for(int i=0;i&lt;N;i++)</span><br><span class="line">  &#123;</span><br><span class="line">    if(abs(hostRef[i]-gpuRef[i])&gt;epsilon)</span><br><span class="line">    &#123;</span><br><span class="line">      printf(&quot;Results don\&#x27;t match!\n&quot;);</span><br><span class="line">      printf(&quot;%f(hostRef[%d] )!= %f(gpuRef[%d])\n&quot;,hostRef[i],i,gpuRef[i],i);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  printf(&quot;Check result success!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">void initData(T ref,int size)&#123;</span><br><span class="line">    std::default_random_engine e(time(0));</span><br><span class="line">    std::uniform_real_distribution&lt;float&gt; u(-1.0,1.0);</span><br><span class="line">    for(int i=0;i&lt;size;i++)&#123;</span><br><span class="line">        ref[i]=u(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>matadd.cu</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;cudatool.h&quot;</span><br><span class="line">#include &lt;chrono&gt;</span><br><span class="line">__global__ void MatAdd(float *A, float *B, float *C,int nx) &#123;</span><br><span class="line">    int x = blockIdx.x * blockDim.x + threadIdx.x;</span><br><span class="line">    int y = blockIdx.y * blockDim.y + threadIdx.y;</span><br><span class="line">    C[x+y*nx] = A[x+y*nx] + B[x+y*nx];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void hostMatAdd(float *A, float *B, float *C,int nx,int ny) &#123;</span><br><span class="line">    for(int y=0; y&lt;ny; y++) &#123;</span><br><span class="line">        for(int x=0; x&lt;nx; x++)&#123;</span><br><span class="line">        C[x+y*nx] = A[x+y*nx] + B[x+y*nx];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int Nx=1024;</span><br><span class="line">    int Ny=2048;</span><br><span class="line">    size_t size=Nx*Ny*sizeof(float);</span><br><span class="line">    //host</span><br><span class="line">    float *A=(float*)malloc(size), *B=(float*)malloc(size), *C=(float*)malloc(size);</span><br><span class="line">    initData(A,Nx*Ny);</span><br><span class="line">    initData(B,Nx*Ny);</span><br><span class="line">    auto start=std::chrono::steady_clock::now();</span><br><span class="line">    hostMatAdd(A,B,C,Nx,Ny);</span><br><span class="line">    auto end=std::chrono::steady_clock::now();</span><br><span class="line">    std::chrono::duration&lt;double&gt; elapsed_seconds = end-start;</span><br><span class="line">    printf(&quot;cputime: %f\n&quot;,elapsed_seconds.count());</span><br><span class="line">    //device</span><br><span class="line">    float *d_A, *d_B, *d_C;</span><br><span class="line">    cudaMalloc(&amp;d_A, size);</span><br><span class="line">    cudaMalloc(&amp;d_B, size);</span><br><span class="line">    cudaMalloc(&amp;d_C, size);</span><br><span class="line">    </span><br><span class="line">    // Copy input data from host to device</span><br><span class="line">    cudaMemcpy(d_A, A, size, cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(d_B, B, size, cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">    // Define block and grid dimensions</span><br><span class="line">    dim3 block(16,16);</span><br><span class="line">    dim3 grid(ceil(Nx/block.x), ceil(Ny/block.y));</span><br><span class="line">    start=std::chrono::steady_clock::now();</span><br><span class="line">    // Kernel invocation</span><br><span class="line">    MatAdd&lt;&lt;&lt;grid, block&gt;&gt;&gt;(d_A, d_B, d_C,Nx);</span><br><span class="line">    cudaDeviceSynchronize();</span><br><span class="line">    end=std::chrono::steady_clock::now();</span><br><span class="line">    elapsed_seconds = end-start;</span><br><span class="line">    printf(&quot;gputime: %f\n&quot;,elapsed_seconds.count());</span><br><span class="line">    // Copy result back from device to host</span><br><span class="line">    float *Cdh=(float*)malloc(size);</span><br><span class="line">    cudaMemcpy(Cdh, d_C, size, cudaMemcpyDeviceToHost);</span><br><span class="line">    checkResult(Cdh,C,Nx*Ny);</span><br><span class="line">    </span><br><span class="line">    // maxError = fmax(maxError, fabs(C[i]-3.0f)); </span><br><span class="line">    // std::cout &lt;&lt; &quot;Max error: &quot; &lt;&lt; maxError &lt;&lt; std::endl; // Free memory </span><br><span class="line">    // Free device memory</span><br><span class="line">    cudaFree(d_A);</span><br><span class="line">    cudaFree(d_B);</span><br><span class="line">    cudaFree(d_C);</span><br><span class="line"></span><br><span class="line">    // At this point, matrix C on the host contains the result of A+B</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>result</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cputime: 0.005051</span><br><span class="line">gputime: 0.000188</span><br><span class="line">Check result success!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="二维数组表示"><a href="#二维数组表示" class="headerlink" title="二维数组表示"></a>二维数组表示</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;cudatool.h&quot;</span><br><span class="line">#include &lt;chrono&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#define Nx 1024</span><br><span class="line">#define Ny 2048</span><br><span class="line">__global__ void MatAdd(float **A, float **B, float **C) &#123;</span><br><span class="line">    int x = blockIdx.x * blockDim.x + threadIdx.x;</span><br><span class="line">    int y = blockIdx.y * blockDim.y + threadIdx.y;</span><br><span class="line">    C[y][x] = A[y][x] + B[y][x];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void hostMatAdd(float** A,float** B,float** C,int nx,int ny) &#123;</span><br><span class="line">    for(int y=0; y&lt;ny; y++) &#123;</span><br><span class="line">        for(int x=0; x&lt;nx; x++)&#123;</span><br><span class="line">        C[y][x] = A[y][x] + B[y][x];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    //host</span><br><span class="line"></span><br><span class="line">    //设置二维数组，如下设置可以保证所有元素连续</span><br><span class="line">    float **A=new float*[Ny], **B=new float*[Ny],**C=new float*[Ny],**res=new float*[Ny];</span><br><span class="line">    A[0]=new float[Nx*Ny];</span><br><span class="line">    B[0]=new float[Nx*Ny];</span><br><span class="line">    C[0]=new float[Nx*Ny];</span><br><span class="line">    res[0]=new float[Nx*Ny];</span><br><span class="line">    for(int i=0;i&lt;Ny;i++)&#123;</span><br><span class="line">        A[i] = A[0]+Nx*i;</span><br><span class="line">        B[i] = B[0]+Nx*i;</span><br><span class="line">        C[i] = C[0]+Nx*i;</span><br><span class="line">        res[i] = res[0]+Nx*i;</span><br><span class="line">    &#125;</span><br><span class="line">    initData(A[0],Nx*Ny);</span><br><span class="line">    initData(B[0],Nx*Ny);</span><br><span class="line">    //计算CPU用时</span><br><span class="line">    auto start=std::chrono::steady_clock::now();</span><br><span class="line">    hostMatAdd(A,B,res,Nx,Ny);</span><br><span class="line">    auto end=std::chrono::steady_clock::now();</span><br><span class="line">    std::chrono::duration&lt;double&gt; elapsed_seconds = end-start;</span><br><span class="line">    printf(&quot;cputime: %f\n&quot;,elapsed_seconds.count());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //device</span><br><span class="line">    //在GPU上分配内存，有数据和指针数组</span><br><span class="line">    float *d_A, *d_B, *d_C;</span><br><span class="line">    float **Ap, **Bp, **Cp;</span><br><span class="line">    cudaMalloc(&amp;d_A, Nx*Ny*sizeof(float));</span><br><span class="line">    cudaMalloc(&amp;d_B, Nx*Ny*sizeof(float));</span><br><span class="line">    cudaMalloc(&amp;d_C, Nx*Ny*sizeof(float));</span><br><span class="line">    cudaMalloc(&amp;Ap, Ny*sizeof(float*));</span><br><span class="line">    cudaMalloc(&amp;Bp, Ny*sizeof(float*));</span><br><span class="line">    cudaMalloc(&amp;Cp, Ny*sizeof(float*));</span><br><span class="line">    //数据传递分为3步</span><br><span class="line">    //1.把数据从host复制到device</span><br><span class="line">    cudaMemcpy(d_A, A[0], Nx*Ny*sizeof(float), cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(d_B, B[0], Nx*Ny*sizeof(float), cudaMemcpyHostToDevice);</span><br><span class="line">    //2.把指针指到device数据中正确的位置</span><br><span class="line">    for (int i = 0; i &lt;Ny; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        A[i]=d_A+i*Nx;</span><br><span class="line">        B[i]=d_B+i*Nx;</span><br><span class="line">        C[i]=d_C+i*Nx;</span><br><span class="line">    &#125;</span><br><span class="line">    //3.把指针复制到device</span><br><span class="line">    cudaMemcpy(Ap, A, Ny*sizeof(float*), cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(Bp, B, Ny*sizeof(float*), cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(Cp, C, Ny*sizeof(float*), cudaMemcpyHostToDevice);</span><br><span class="line">    </span><br><span class="line">    // Define block and grid dimensions</span><br><span class="line">    dim3 block(16,16);</span><br><span class="line">    dim3 grid(ceil(Nx/block.x), ceil(Ny/block.y));</span><br><span class="line">    //计算GPU用时</span><br><span class="line">    start=std::chrono::steady_clock::now();</span><br><span class="line">        // Kernel invocation</span><br><span class="line">    MatAdd&lt;&lt;&lt;grid, block&gt;&gt;&gt;(Ap, Bp,Cp);</span><br><span class="line">    cudaDeviceSynchronize();</span><br><span class="line">    end=std::chrono::steady_clock::now();</span><br><span class="line">    elapsed_seconds = end-start;</span><br><span class="line">    printf(&quot;gputime: %f\n&quot;,elapsed_seconds.count());</span><br><span class="line"></span><br><span class="line">    // Copy result back from device to host</span><br><span class="line">    float *Cdh=new float[Nx*Ny];</span><br><span class="line">    cudaMemcpy(Cdh, d_C, Nx*Ny*sizeof(float), cudaMemcpyDeviceToHost);</span><br><span class="line">    checkResult(res[0],Cdh,Nx*Ny);</span><br><span class="line"></span><br><span class="line">    // Free device memory</span><br><span class="line">    cudaFree(d_A);</span><br><span class="line">    cudaFree(d_B);</span><br><span class="line">    cudaFree(d_C);</span><br><span class="line">    cudaFree(Ap);</span><br><span class="line">    cudaFree(Bp);</span><br><span class="line">    cudaFree(Cp);</span><br><span class="line"></span><br><span class="line">    // At this point, matrix C on the host contains the result of A+B</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cputime: 0.005094</span><br><span class="line">gputime: 0.000140</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/1190202002">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Programming-Model"><span class="toc-number">1.</span> <span class="toc-text">Programming Model</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84cuda-add"><span class="toc-number">1.1.</span> <span class="toc-text">一个简单的cuda add</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9D%97%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">线程块中的线程数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9D%97"><span class="toc-number">1.3.</span> <span class="toc-text">线程块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%B1%82%E6%AC%A1"><span class="toc-number">1.4.</span> <span class="toc-text">线程层次</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9D%97%E7%B0%87"><span class="toc-number">1.4.1.</span> <span class="toc-text">线程块簇</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E5%88%86%E5%9D%97"><span class="toc-number">1.5.</span> <span class="toc-text">例子(二维数组分块)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.5.1.</span> <span class="toc-text">一维数组表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.5.2.</span> <span class="toc-text">二维数组表示</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/23/cuda-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/23/cuda-1/&text=cuda-1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/23/cuda-1/&is_video=false&description=cuda-1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cuda-1&body=Check out this article: http://example.com/2024/05/23/cuda-1/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/23/cuda-1/&title=cuda-1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/23/cuda-1/&name=cuda-1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/23/cuda-1/&t=cuda-1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    yif
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/1190202002">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
